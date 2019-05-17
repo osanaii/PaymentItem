@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qfedu.mapper.loan.LoanMapper">
+  <resultMap id="BaseResultMap" type="com.qfedu.domain.loan.Loan">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="type" jdbcType="INTEGER" property="type" />
+    <result column="money" jdbcType="INTEGER" property="money" />
+    <result column="rate" jdbcType="REAL" property="rate" />
+    <result column="monthes" jdbcType="INTEGER" property="monthes" />
+    <result column="returntype" jdbcType="INTEGER" property="returntype" />
+    <result column="minmoney" jdbcType="INTEGER" property="minmoney" />
+    <result column="disabledays" jdbcType="INTEGER" property="disabledays" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="aid" jdbcType="INTEGER" property="aid" />
+    <result column="createdate" jdbcType="DATE" property="createdate" />
+    <result column="flag" jdbcType="INTEGER" property="flag" />
+    <result column="authdate" jdbcType="DATE" property="authdate" />
+    <result column="description" jdbcType="LONGVARCHAR" property="description" />
+  </resultMap>
+
+  <sql id="Base_Column_List">
+    id, type, money, rate, monthes, returntype, minmoney, disabledays, title, aid, createdate, 
+    flag, authdate
+  </sql>
+  <sql id="Blob_Column_List">
+    description
+  </sql>
+  <insert id="insert" parameterType="com.qfedu.domain.loan.Loan">
+    insert into t_loan ( type, money,
+      rate, monthes, returntype,
+      minmoney, disabledays, title,
+      aid, createdate, flag,
+      authdate, description)
+    values ( #{type,jdbcType=INTEGER}, #{money,jdbcType=INTEGER},
+      #{rate,jdbcType=REAL}, #{monthes,jdbcType=INTEGER}, #{returntype,jdbcType=INTEGER},
+      #{minmoney,jdbcType=INTEGER}, #{disabledays,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR},
+      #{aid,jdbcType=INTEGER}, now(), 0,
+      null , #{description,jdbcType=LONGVARCHAR})
+  </insert>
+  <select id="selectById" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    , description from t_loan  where id = #{id,jdbcType=INTEGER}
+  </select>
+  <update id="updateFlag" >
+    update t_load set flag=#{flag} where id=#{id}
+  </update>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select * from t_loan;
+  </select>
+  <select id="selectByType" resultMap="BaseResultMap">
+    select * from t_loan where type =#{type};
+  </select>
+
+  <select id="queryById" resultType="com.qfedu.core.vo.LoanVo">
+    select l.*,a.totalmoney,li.* from t_loan l
+left join t_account a on l.aid=a.id
+left join (select sum(money) investmoney,count(*) investperson,lid from t_invest group by lid) li
+on li.lid=l.id where l.id=#{id}
+  </select>
+</mapper>

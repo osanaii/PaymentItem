@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qfedu.mapper.loan.LoanLogMapper">
+  <resultMap id="BaseResultMap" type="com.qfedu.domain.loan.LoanLog">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="type" jdbcType="INTEGER" property="type" />
+    <result column="suid" jdbcType="INTEGER" property="suid" />
+    <result column="msg" jdbcType="VARCHAR" property="msg" />
+  </resultMap>
+
+
+  <insert id="insert" parameterType="com.qfedu.domain.loan.LoanLog">
+    insert into t_loanlog( type, suid, msg,createtime)
+    values ( #{type,jdbcType=INTEGER}, #{suid,jdbcType=INTEGER},
+      #{msg,jdbcType=VARCHAR},now())
+  </insert>
+
+</mapper>
