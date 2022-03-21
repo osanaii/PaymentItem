@@ -47,7 +47,7 @@
         <shirospring.version>1.4.0</shirospring.version>
         <json.version>20180130</json.version>
         <jedis.version>2.9.0</jedis.version>
-        <dubbo.version>2.6.2</dubbo.version>
+        <dubbo.version>2.6.9</dubbo.version>
         <zk.version>3.4.13</zk.version>
         <zkclient.version>0.10</zkclient.version>
         <slf4j.version>1.7.25</slf4j.version>
